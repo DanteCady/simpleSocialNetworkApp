@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { globalStyles } from '../styles/styles';
-import CreatePost from './CreatePost';
-import FeedPost from './feedPosts';
+import CreatePost from '../components/CreatePost';
+import FeedPost from '../components/feedPosts';
 
 const FeedContainer = () => {
   const [posts, setPosts] = useState([]);

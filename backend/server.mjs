@@ -95,6 +95,25 @@ app.post('/signup', (req, res) => {
   });
 });
 
+app.post('/posts/:postId/like', (req, res) => {
+  const { postId } = req.params;
+  // Increment the like count in database
+  Post.findByIdAndUpdate(postId, { $inc: { likes: 1 } }, { new: true }, (err, post) => {
+    if (err) return res.status(500).send(err);
+    res.send(post);
+  });
+});
+
+app.post('/posts/:postId/dislike', (req, res) => {
+  const { postId } = req.params;
+  // Increment the dislike count in database
+  Post.findByIdAndUpdate(postId, { $inc: { dislikes: 1 } }, { new: true }, (err, post) => {
+    if (err) return res.status(500).send(err);
+    res.send(post);
+  });
+});
+
+
 app.listen(process.env.PORT, () => {
   console.log('Server is running on port ${process.env.PORT}');
 });

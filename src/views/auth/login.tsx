@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const navigate = useNavigate();
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
 		// Handle login logic here
+		axios.get ('http://localhost:3001/login', {
+			params: {
+				username: username,
+				password: password,
+			},
+		})
+			navigate('/feed');
+	
 		console.log(
 			`Logging in with username: ${username} and password: ${password}`
 		);

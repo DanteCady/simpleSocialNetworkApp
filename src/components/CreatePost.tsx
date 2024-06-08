@@ -40,7 +40,7 @@ const CreatePostModal = () => {
 
 export const styles = {
 	textArea: {
-		width: '100%',
+		width: '99%',
 		height: '100px',
 		backgroundColor: '#f9f9f9',
 		color: '#14171a',

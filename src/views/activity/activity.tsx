@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Typography, Card, CardContent, CircularProgress } from '@mui/material';
+import { Container, Typography, Card, CardContent, CircularProgress, Box } from '@mui/material';
 import AppBar from '../../components/AppBar';
+import Sidebar from '../../components/Sidebar';
 
 const Activity = () => {
   const [myActivity, setMyActivity] = useState([]);
@@ -38,27 +39,31 @@ const Activity = () => {
 
   return (
     <>
-    <AppBar userDetails={userDetails || ''} />
-      <Typography variant="h4" component="h1" align="center" gutterBottom>
-        Liked Posts
-      </Typography>
-      {myActivity.length === 0 ? (
-        <Typography variant="body1" align="center">
-          You have not liked any posts yet.
-        </Typography>
-      ) : (
-        myActivity.map(post => (
-          <Card key={post.post_id} style={{ marginBottom: '16px' }}>
-            <CardContent>
-              <Typography variant="h6">{post.content}</Typography>
-              <Typography variant="body2" color="textSecondary">
-                {new Date(post.created_at).toLocaleString()}
-              </Typography>
-            </CardContent>
-          </Card>
-        ))
-      )}
-    
+      <AppBar userDetails={userDetails || ''} />
+      <Box sx={{ display: 'flex' }}>
+        <Sidebar userDetails={userDetails || ''} />
+        <Container maxWidth="md" sx={{ marginTop: 8 }}>
+          <Typography variant="h4" component="h1" align="center" gutterBottom>
+            Liked Posts
+          </Typography>
+          {myActivity.length === 0 ? (
+            <Typography variant="body1" align="center">
+              You have not liked any posts yet.
+            </Typography>
+          ) : (
+            myActivity.map(post => (
+              <Card key={post.post_id} sx={{ marginBottom: '16px' }}>
+                <CardContent>
+                  <Typography variant="h6">{post.content}</Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    {new Date(post.created_at).toLocaleString()}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </Container>
+      </Box>
     </>
   );
 };

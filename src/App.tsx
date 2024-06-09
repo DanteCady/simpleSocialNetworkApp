@@ -6,6 +6,7 @@ import Login from './views/auth/login';
 import Signup from './views/auth/signup';
 import Feed from './views/home/dashboard';
 import LikedActivity from './views/activity/activity_Likes';
+import PostsActivity from './views/activity/activity_Posts';
 
 const App: React.FC = () => (
 	<UserProvider>
@@ -17,6 +18,7 @@ const App: React.FC = () => (
 				<Route path="/signup" Component={Signup} />
 				<Route path="/feed" Component={Feed} />
 				<Route path="/myActivity-likes" Component={LikedActivity} />
+				<Route path="/myActivity-posts" Component={PostsActivity} />
 			</Routes>
 		</BrowserRouter>
 	</UserProvider>

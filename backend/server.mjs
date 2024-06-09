@@ -122,7 +122,6 @@ app.post('/signup', (req, res) => {
 
 
 // Increment like count
-// Increment like count
 app.post('/posts/:postId/like', (req, res) => {
   const { postId } = req.params;
   const { userId, likeType } = req.body;
@@ -205,6 +204,24 @@ app.post('/posts/:postId/dislike', (req, res) => {
     }
   });
 });
+
+// Get posts created by a user
+app.get('/users/:userId/posts', (req, res) => {
+  const { userId } = req.params;
+  const query = `
+    SELECT * FROM posts
+    WHERE user_id = ?
+    ORDER BY created_at DESC`;
+  connection.query(query, [userId], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).send(result);
+    }
+  });
+});
+
 
 app.listen(process.env.PORT, () => {
   console.log('Server is running on port ${process.env.PORT}');

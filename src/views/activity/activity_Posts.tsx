@@ -4,27 +4,27 @@ import { Container, Typography, Card, CardContent, CircularProgress, Box } from 
 import AppBar from '../../components/AppBar';
 import Sidebar from '../../components/sideBar';
 
-const Activity = () => {
-  const [myActivity, setMyActivity] = useState([]);
+const MyPosts = () => {
+  const [myPosts, setMyPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const fetchLikedPosts = async () => {
+    const fetchUserPosts = async () => {
       try {
         const userDetails = JSON.parse(localStorage.getItem('userDetails'));
         const userId = userDetails.user_id;
-        const response = await axios.get(`http://localhost:3001/users/${userId}/likes`);
-        setMyActivity(response.data);
+        const response = await axios.get(`http://localhost:3001/users/${userId}/posts`);
+        setMyPosts(response.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
-        setError('There was an error fetching liked posts.');
-        console.error('There was an error fetching liked posts:', error);
+        setError('There was an error fetching your posts.');
+        console.error('There was an error fetching your posts:', error);
       }
     };
 
-    fetchLikedPosts();
+    fetchUserPosts();
   }, []);
 
   if (loading) {
@@ -44,14 +44,14 @@ const Activity = () => {
         <Sidebar userDetails={userDetails || ''} />
         <Container maxWidth="md" sx={{ marginTop: 8 }}>
           <Typography variant="h4" component="h1" align="center" gutterBottom>
-            Liked Posts
+            My Posts
           </Typography>
-          {myActivity.length === 0 ? (
+          {myPosts.length === 0 ? (
             <Typography variant="body1" align="center">
-              You have not liked any posts yet.
+              You have not created any posts yet.
             </Typography>
           ) : (
-            myActivity.map(post => (
+            myPosts.map(post => (
               <Card key={post.post_id} sx={{ marginBottom: '16px' }}>
                 <CardContent>
                   <Typography variant="h6">{post.content}</Typography>
@@ -68,4 +68,4 @@ const Activity = () => {
   );
 };
 
-export default Activity;
+export default MyPosts;

@@ -4,13 +4,14 @@ import axios from 'axios';
 
 const CreatePostModal = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const userDetails = JSON.parse(localStorage.getItem('userDetails'));
 
   const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (formRef.current) {
       const data = new FormData(formRef.current);
       const post = {
-        user_id: 2, 
+        user_id: userDetails.user_id, 
         content: data.get('content'),
       };
       axios.post('http://localhost:3001/submit-post', post)

@@ -48,7 +48,11 @@ app.post('/submit-post', (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-  const query = 'SELECT * FROM posts';
+  const query = `
+    SELECT posts.*, users.username 
+    FROM posts 
+    INNER JOIN users ON posts.user_id = users.user_id`;
+  
   connection.query(query, (err, result) => {
     if (err) {
       console.error(err);
@@ -56,9 +60,9 @@ app.get('/posts', (req, res) => {
     } else {
       res.status(200).send(result);
     }
-  }
-  );
+  });
 });
+
 
 
 // Login route

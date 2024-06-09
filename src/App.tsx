@@ -5,11 +5,13 @@ import Home from './views/home.js';
 import Login from './views/auth/login';
 import Signup from './views/auth/signup';
 import Feed from './views/home/dashboard';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const App: React.FC = () => (
 	<UserProvider>
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" Component={Home} />
+				<Route path="/" Component={Login} />
 				<Route path="/home" Component={Home} />
 				<Route path="/login" Component={Login} />
 				<Route path="/signup" Component={Signup} />

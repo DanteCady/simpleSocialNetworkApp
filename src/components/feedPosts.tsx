@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 const FeedPost = ({ post }) => {
@@ -6,11 +7,25 @@ const FeedPost = ({ post }) => {
 
   const handleLike = () => {
     //TODO: Implement like functionality
+    axios.post('http://localhost:3001/like', { post_id: post.post_id })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error('Error liking post:', error);
+      });
     setLikes(likes + 1);
   };
 
   const handleDislike = () => {
     // TODO: Implement dislike functionality
+    axios.post('http://localhost:3001/dislike', { post_id: post.post_id })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error('Error disliking post:', error);
+      });
     setDislikes(dislikes + 1);
   };
 

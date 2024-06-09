@@ -230,6 +230,7 @@ app.get('/users/:userId/posts', (req, res) => {
   // Get the user ID from the request parameters
   const { userId } = req.params;
   // Fetch the posts created by the user
+  // Include the total number of likes and dislikes for each post
   const query = `
     SELECT posts.*, 
            (SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = posts.post_id AND post_likes.like_type = 'like') AS total_likes,

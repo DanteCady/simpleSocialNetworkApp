@@ -33,12 +33,12 @@ export default Sidebar;
 
 const styles = {
   sidebar: {
-    width: '200px',
+    width: '250px',
     display: 'flex',
     flexDirection: 'column',
     padding: '10px',
-    border: '1px solid #e1e8ed',
-    height: 'calc(100vh - 40px)',
+    borderRight: '1px solid #e1e8ed',
+    height: '100vh',
     overflowY: 'auto',
   },
   profile: {

@@ -2,44 +2,41 @@ import React from 'react';
 import { Box, Container } from '@mui/material';
 import FeedContainer from '../../components/FeedContainer';
 import AppBar from '../../components/AppBar';
+import Sidebar from '../../components/sideBar';
 
-const Feed = () => {
+const Dashboard = () => {
+  const user = {
+    firstName: 'Dante',
+    lastName: 'Cady',
+  };
+
   return (
     <>
       <AppBar />
       <Box sx={styles.page}>
-        <Container sx={styles.container}>
+        <Sidebar user={user} />
+        <Box sx={styles.mainContent}>
           <FeedContainer />
-        </Container>
+        </Box>
       </Box>
     </>
   );
 };
 
-export default Feed;
+export default Dashboard;
 
 const styles = {
   page: {
+    display: 'flex',
     justifyContent: 'center',
-    height: 'auto',
-    width: 'auto',
+    height: '100vh',
+    width: '100vw',
   },
-  container: {
-    width: '100%',
+  mainContent: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-  },
-  sidebar: {
-    width: '200px',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '10px',
-    border: '1px solid #e1e8ed',
-    height: 'calc(100vh - 40px)',
+    padding: '20px',
     overflowY: 'auto',
-  },
-  text: {
-    color: '#14171a',
-    fontSize: '16px',
   },
 };

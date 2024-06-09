@@ -10,6 +10,10 @@ const AppBar = () => {
 		console.log('Logout');
 		navigate('/login');
 	}
+	const handleAccount = () => {
+		console.log('Account');
+		navigate('/account');
+	}
 
 	return (
 		<MuiAppBar position="static">
@@ -21,7 +25,9 @@ const AppBar = () => {
 					<BoltIcon sx={{ marginLeft: '10px', height: '35px' }} />
 				</div>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
+					<Button onClick={handleAccount}>
 					<Avatar alt="User Avatar" src="/path/to/avatar.jpg" sx={{ marginRight: '10px' }} />
+					</Button>
 					<Button color="inherit" onClick={handleLogout}>Logout</Button>
 				</div>
 			</Toolbar>

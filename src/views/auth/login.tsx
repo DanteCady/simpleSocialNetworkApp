@@ -10,6 +10,18 @@ const Login = () => {
 	const [loginStatus, setLoginStatus] = useState('');
 	const navigate = useNavigate();
 
+	const userDetails = async (userId) => {
+		try {
+		  const response = await axios.get(`http://localhost:3001/users/${userId}`);
+		  console.log('User details:', response.data);
+		  localStorage.setItem('userDetails', JSON.stringify(response.data));
+		  return response.data;
+		} catch (error) {
+		  console.error('There was an error fetching user details!', error);
+		}
+	  };
+	  
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -19,7 +31,7 @@ const Login = () => {
 			});
 			console.log('Login response:', response);
 			if (response.data.success) {
-				localStorage.setItem('username', username);
+				localStorage.setItem('userDetails', response.data.userDetails);
 			} else {
 				setLoginStatus('Invalid username or password');
 			}
@@ -86,3 +98,7 @@ const Login = () => {
 };
 
 export default Login;
+function then(arg0: (response: string) => void) {
+	throw new Error('Function not implemented.');
+}
+

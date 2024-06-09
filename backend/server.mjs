@@ -78,12 +78,31 @@ app.post('/login', (req, res) => {
       } else {
         if (result.length > 0) {
           res.status(200).send('Login successful');
+          res.send(result);
         } else {
           res.status(401).send('Invalid credentials');
         }
       }
     });
   });
+
+// Get user details
+app.get('/users/:user_Id', (req, res) => {
+  const { user_Id } = req.params;
+  const query = 'SELECT * FROM users WHERE user_id = ?';
+  connection.query(query, [user_Id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      if (result.length > 0) {
+        res.status(200).send(result[0]);
+      } else {
+        res.status(404).send('User not found');
+      }
+    }
+  });
+});
 
 // Sign up route
 app.post('/signup', (req, res) => {

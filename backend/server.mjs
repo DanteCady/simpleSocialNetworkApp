@@ -8,7 +8,6 @@ import cors from 'cors';
 import { broadcastNewPost } from './websocket.mjs';
 
 
-
 // INITIALIZATION //
 const app = express();
 app.use(express.json());
@@ -33,24 +32,22 @@ connection.connect((err) => {
 app.post('/submit-post', (req, res) => {
   const { user_id, content } = req.body;
 
-  // Verify user_id is valid
   const userQuery = 'SELECT * FROM users WHERE user_id = ?';
-  // Check if the user exists
   connection.query(userQuery, [user_id], (userErr, userResult) => {
-    // If the user doesn't exist, return an error
     if (userErr || userResult.length === 0) {
       console.error(userErr);
       return res.status(400).send('Invalid user ID');
     }
 
-    // If the user exists, insert the post
     const created_at = new Date();
     const query = 'INSERT INTO posts (user_id, content, created_at) VALUES (?, ?, ?)';
-    connection.query(query, [user_id, content, created_at], (err) => {
+    connection.query(query, [user_id, content, created_at], (err, result) => {
       if (err) {
         console.error(err);
         res.status(500).send('Server error');
       } else {
+        const newPost = { post_id: result.insertId, user_id, content, created_at };
+        broadcastNewPost(newPost);
         res.status(200).send('Post submitted successfully');
       }
     });

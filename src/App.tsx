@@ -16,7 +16,7 @@ const App: React.FC = () => (
 				<Route path="/login" Component={Login} />
 				<Route path="/signup" Component={Signup} />
 				<Route path="/feed" Component={Feed} />
-				<Route path="/myActivity-likes" Component={ActivLikedActivityity} />
+				<Route path="/myActivity-likes" Component={LikedActivity} />
 			</Routes>
 		</BrowserRouter>
 	</UserProvider>

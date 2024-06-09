@@ -69,6 +69,7 @@ app.get('/posts', (req, res) => {
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
   
+    // Verify user credentials
     const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
     connection.query(query, [username, password], (err, result) => {
       if (err) {

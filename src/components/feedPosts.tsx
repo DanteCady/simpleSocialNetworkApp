@@ -72,7 +72,7 @@ const FeedPost = ({ post }) => {
         </Box>
       </Box>
       <Typography sx={{color: 'grey', fontSize:'12px'}}>
-        Posted by: {post.username}
+        Posted by: {post.username} on {new Date(post.created_at).toLocaleString()}
       </Typography>
     </Paper>
   );

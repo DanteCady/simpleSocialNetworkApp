@@ -99,25 +99,33 @@ app.post('/signup', (req, res) => {
   });
 });
 
+// Increment like count
 app.post('/posts/:postId/like', (req, res) => {
   const { postId } = req.params;
-  // Increment the like count in database
-  Post.findByIdAndUpdate(postId, { $inc: { likes: 1 } }, { new: true }, (err, post) => {
-    if (err) return res.status(500).send(err);
-    res.send(post);
+  const query = 'UPDATE posts SET likes = likes + 1 WHERE post_id = ?';
+  connection.query(query, [postId], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).send('Like added');
+    }
   });
 });
 
+// Increment dislike count
 app.post('/posts/:postId/dislike', (req, res) => {
   const { postId } = req.params;
-  // Increment the dislike count in database
-  Post.findByIdAndUpdate(postId, { $inc: { dislikes: 1 } }, { new: true }, (err, post) => {
-    if (err) return res.status(500).send(err);
-    res.send(post);
+  const query = 'UPDATE posts SET dislikes = dislikes + 1 WHERE post_id = ?';
+  connection.query(query, [postId], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      res.status(200).send('Dislike added');
+    }
   });
 });
-
-
 
 app.listen(process.env.PORT, () => {
   console.log('Server is running on port ${process.env.PORT}');

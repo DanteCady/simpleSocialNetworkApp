@@ -8,6 +8,7 @@ const AppBar = ({userDetails}) => {
 
 	const handleLogout = () => {
 		console.log('Logout');
+		localStorage.removeItem('userDetails');
 		navigate('/login');
 	}
 	const handleAccount = () => {

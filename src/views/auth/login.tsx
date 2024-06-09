@@ -52,7 +52,8 @@ const Login = () => {
               margin="normal"
             />
 			<Typography variant="body1" align="center" gutterBottom>Don't have an account? <a href="/signup">Sign up</a></Typography>
-            <Button
+			<Typography variant="body1" align="center" gutterBottom>Forgot your password? <a href="/forgot">Reset</a></Typography>
+		    <Button
               type="submit"
               variant="contained"
               color="primary"

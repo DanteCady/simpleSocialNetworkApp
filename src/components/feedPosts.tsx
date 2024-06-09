@@ -12,38 +12,44 @@ const FeedPost = ({ post }) => {
   const [dislikes, setDislikes] = useState(post.dislikes);
   const [userInteraction, setUserInteraction] = useState(null); // 'like' or 'dislike'
 
-  const handleLike = () => {
-    if (userInteraction === 'like') {
-      setLikes(likes - 1);
-      setUserInteraction(null);
-    } else {
-      if (userInteraction === 'dislike') {
-        setDislikes(dislikes - 1);
-      }
-      setLikes(likes + 1);
-      setUserInteraction('like');
-    }
-    axios.post(`http://localhost:3001/posts/${post.post_id}/like`)
-      .catch((error) => {
-        console.error('Error liking post:', error);
-      });
-  };
+  const handleInteraction = async (interactionType) => {
+    try {
+      const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+      const userId = userDetails.user_id;
 
-  const handleDislike = () => {
-    if (userInteraction === 'dislike') {
-      setDislikes(dislikes - 1);
-      setUserInteraction(null);
-    } else {
-      if (userInteraction === 'like') {
-        setLikes(likes - 1);
-      }
-      setDislikes(dislikes + 1);
-      setUserInteraction('dislike');
-    }
-    axios.post(`http://localhost:3001/posts/${post.post_id}/dislike`)
-      .catch((error) => {
-        console.error('Error disliking post:', error);
+      const response = await axios.post(`http://localhost:3001/posts/${post.post_id}/like`, {
+        userId,
+        likeType: interactionType
       });
+
+      if (response.status === 200) {
+        if (interactionType === 'like') {
+          if (userInteraction === 'like') {
+            setLikes(likes - 1);
+            setUserInteraction(null);
+          } else {
+            if (userInteraction === 'dislike') {
+              setDislikes(dislikes - 1);
+            }
+            setLikes(likes + 1);
+            setUserInteraction('like');
+          }
+        } else if (interactionType === 'dislike') {
+          if (userInteraction === 'dislike') {
+            setDislikes(dislikes - 1);
+            setUserInteraction(null);
+          } else {
+            if (userInteraction === 'like') {
+              setLikes(likes - 1);
+            }
+            setDislikes(dislikes + 1);
+            setUserInteraction('dislike');
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`Error ${interactionType === 'like' ? 'liking' : 'disliking'} post:`, error);
+    }
   };
 
   return (
@@ -54,7 +60,7 @@ const FeedPost = ({ post }) => {
       <Box display="flex" alignItems="center">
         <Box style={styles.buttonContainer}>
           <Button 
-            onClick={handleLike} 
+            onClick={() => handleInteraction('like')} 
             color={userInteraction === 'like' ? 'primary' : 'inherit'}
             style={styles.button}
           >
@@ -62,7 +68,7 @@ const FeedPost = ({ post }) => {
           </Button>
           <Typography variant="body1">{likes}</Typography>
           <Button 
-            onClick={handleDislike} 
+            onClick={() => handleInteraction('dislike')} 
             color={userInteraction === 'dislike' ? 'error' : 'inherit'}
             style={styles.button}
           >

@@ -122,15 +122,21 @@ app.post('/signup', (req, res) => {
 
 
 // Increment like count
+// Increment like count
 app.post('/posts/:postId/like', (req, res) => {
   const { postId } = req.params;
-  const { userId, likeType } = req.body; 
+  const { userId, likeType } = req.body;
+
+  if (!userId || !likeType) {
+    res.status(400).send('Missing userId or likeType');
+    return;
+  }
 
   const query = 'INSERT INTO post_likes (post_id, user_id, like_type) VALUES (?, ?, ?) ' +
                 'ON DUPLICATE KEY UPDATE like_type = VALUES(like_type)';
   connection.query(query, [postId, userId, likeType], (err, result) => {
     if (err) {
-      console.error(err);
+      console.error('Error inserting like:', err);
       res.status(500).send('Server error');
     } else {
       const updatePostQuery = `
@@ -138,13 +144,29 @@ app.post('/posts/:postId/like', (req, res) => {
         SET likes = (SELECT COUNT(*) FROM post_likes WHERE post_id = ? AND like_type = 'like'),
             dislikes = (SELECT COUNT(*) FROM post_likes WHERE post_id = ? AND like_type = 'dislike')
         WHERE post_id = ?`;
-      
+
       connection.query(updatePostQuery, [postId, postId, postId], (err, result) => {
         if (err) {
-          console.error(err);
+          console.error('Error updating post counts:', err);
           res.status(500).send('Server error');
         } else {
-          res.status(200).send('Like/Dislike updated');
+          const getUsersWhoLikedQuery = `
+            SELECT users.user_id, users.userName, users.firstName, users.lastName
+            FROM users
+            INNER JOIN post_likes ON users.user_id = post_likes.user_id
+            WHERE post_likes.post_id = ? AND post_likes.like_type = 'like'`;
+
+          connection.query(getUsersWhoLikedQuery, [postId], (err, usersResult) => {
+            if (err) {
+              console.error('Error fetching users who liked:', err);
+              res.status(500).send('Server error');
+            } else {
+              res.status(200).send({
+                message: 'Like/Dislike updated',
+                usersWhoLiked: usersResult
+              });
+            }
+          });
         }
       });
     }
@@ -158,18 +180,17 @@ app.get('/users/:userId/likes', (req, res) => {
     SELECT posts.*
     FROM posts
     INNER JOIN post_likes ON posts.post_id = post_likes.post_id
-    WHERE post_likes.user_id = ? AND post_likes.like_type = 'like'
-  `;
+    WHERE post_likes.user_id = ? AND post_likes.like_type = 'like'`;
+  
   connection.query(query, [userId], (err, result) => {
     if (err) {
-      console.error(err);
+      console.error('Error fetching liked posts:', err);
       res.status(500).send('Server error');
     } else {
       res.status(200).send(result);
     }
   });
 });
-
 
 // Increment dislike count
 app.post('/posts/:postId/dislike', (req, res) => {

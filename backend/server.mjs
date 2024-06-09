@@ -124,16 +124,47 @@ app.post('/signup', (req, res) => {
 // Increment like count
 app.post('/posts/:postId/like', (req, res) => {
   const { postId } = req.params;
-  const query = 'UPDATE posts SET likes = likes + 1 WHERE post_id = ?';
+  const { userId, likeType } = req.body; 
+
+  const query = 'INSERT INTO post_likes (post_id, user_id, like_type) VALUES (?, ?, ?) ' +
+                'ON DUPLICATE KEY UPDATE like_type = VALUES(like_type)';
+  connection.query(query, [postId, userId, likeType], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      const updatePostQuery = `
+        UPDATE posts
+        SET likes = (SELECT COUNT(*) FROM post_likes WHERE post_id = ? AND like_type = 'like'),
+            dislikes = (SELECT COUNT(*) FROM post_likes WHERE post_id = ? AND like_type = 'dislike')
+        WHERE post_id = ?`;
+      
+      connection.query(updatePostQuery, [postId, postId, postId], (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Server error');
+        } else {
+          res.status(200).send('Like/Dislike updated');
+        }
+      });
+    }
+  });
+});
+
+app.get('/posts/:postId/likes', (req, res) => {
+  const { postId } = req.params;
+
+  const query = 'SELECT user_id, like_type FROM post_likes WHERE post_id = ?';
   connection.query(query, [postId], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Server error');
     } else {
-      res.status(200).send('Like added');
+      res.status(200).send(result);
     }
   });
 });
+
 
 // Increment dislike count
 app.post('/posts/:postId/dislike', (req, res) => {

@@ -17,6 +17,7 @@ const CreatePostModal = () => {
       axios.post('http://localhost:3001/submit-post', post)
         .then((response) => {
           console.log(response.data);
+          window.location.reload();
         })
         .catch((error) => {
           console.error('Error submitting post:', error);

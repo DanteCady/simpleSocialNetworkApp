@@ -14,6 +14,16 @@ const Signup = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
+  const userDetails = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/users/${userId}`);
+      console.log('User details:', response.data);
+      localStorage.setItem('userDetails', JSON.stringify(response.data));
+    } catch (error) {
+      console.error('There was an error fetching user details!', error);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -28,15 +38,16 @@ const Signup = () => {
     }
 
     setLoading(true);
-
     try {
       const response = await axios.post('http://localhost:3001/signup', {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        userName: userName,
-        password: password,
+        firstName,
+        lastName,
+        email,
+        userName,
+        password,
       });
+      const userId = response.data.userId;
+      await userDetails(userId); // Fetch and store user details
       setLoading(false);
       navigate('/feed');
     } catch (error) {

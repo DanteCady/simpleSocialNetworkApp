@@ -7,7 +7,7 @@ const Signup = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
+  const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ const Signup = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!firstName ||!lastName || !email || !username || !password || !confirmPassword) {
+    if (!firstName ||!lastName || !email || !userName || !password || !confirmPassword) {
       setError('All fields are required.');
       return;
     }
@@ -34,11 +34,12 @@ const Signup = () => {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        username: username,
+        userName: userName,
         password: password,
       });
       setLoading(false);
       navigate('/feed');
+      
     } catch (error) {
       setLoading(false);
       setError('There was an error signing up. Please try again.');
@@ -56,8 +57,8 @@ const Signup = () => {
               label="Firstname"
               variant="outlined"
               fullWidth
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
               required
               margin="normal"
             />
@@ -65,8 +66,8 @@ const Signup = () => {
               label="Lastname"
               variant="outlined"
               fullWidth
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
               required
               margin="normal"
             />
@@ -74,8 +75,8 @@ const Signup = () => {
               label="Email"
               variant="outlined"
               fullWidth
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
               margin="normal"
             />
@@ -83,7 +84,7 @@ const Signup = () => {
               label="Username"
               variant="outlined"
               fullWidth
-              value={username}
+              value={userName}
               onChange={(e) => setUsername(e.target.value)}
               required
               margin="normal"

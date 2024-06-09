@@ -107,10 +107,10 @@ app.get('/users/:user_Id', (req, res) => {
 
 // Sign up route
 app.post('/signup', (req, res) => {
-  const { username, password } = req.body;
+  const { firstName, lastName, email, userName, password } = req.body;
 
-  const query = 'INSERT INTO users (username, password) VALUES (?, ?)';
-  connection.query(query, [username, password], (err, result) => {
+  const query = 'INSERT INTO users (firstName, lastName, email, userName, password) VALUES (?, ?, ? , ? , ?)';
+  connection.query(query, [firstName, lastName, email, userName, password], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Server error');

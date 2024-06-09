@@ -5,32 +5,33 @@ import axios from 'axios';
 const CreatePostModal = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     if (formRef.current) {
       const data = new FormData(formRef.current);
       const post = {
-        user_id: 1,
-        content: data.get('content') as string,
+        user_id: 2, 
+        content: data.get('content'),
       };
       axios.post('http://localhost:3001/submit-post', post)
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
         })
         .catch((error) => {
-          console.log(error);
+          console.error('Error submitting post:', error);
         });
     }
   };
 
   return (
     <Paper elevation={3} style={styles.form}>
-      <Typography variant="body1" >Create Your Post</Typography>
+      <Typography variant="body1">Create Your Post</Typography>
       <form ref={formRef} onSubmit={handleSubmit}>
         <Box mt={1} mb={2}>
           <TextareaAutosize
             aria-label="content"
             placeholder="Write your post here..."
+            name="content" 
             style={styles.textArea}
           />
         </Box>

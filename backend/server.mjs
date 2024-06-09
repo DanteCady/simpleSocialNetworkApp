@@ -46,12 +46,12 @@ app.post('/submit-post', (req, res) => {
     });
   });
 });
-
 app.get('/posts', (req, res) => {
   const query = `
     SELECT posts.*, users.username 
     FROM posts 
-    INNER JOIN users ON posts.user_id = users.user_id`;
+    INNER JOIN users ON posts.user_id = users.user_id
+    ORDER BY posts.created_at DESC`;
   
   connection.query(query, (err, result) => {
     if (err) {

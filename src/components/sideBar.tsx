@@ -3,12 +3,13 @@ import { Box, Avatar, Typography, List, ListItem, ListItemIcon, ListItemText } f
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 
-const Sidebar = ({ user }) => {
+const Sidebar = ({ userDetails }) => {
   return (
     <Box sx={styles.sidebar}>
       <Box sx={styles.profile}>
-        <Avatar sx={styles.avatar}>{user.firstName.charAt(0)}{user.lastName.charAt(0)}</Avatar>
-        <Typography sx={styles.username}>{user.firstName} {user.lastName}</Typography>
+        <Avatar sx={styles.avatar}>{userDetails.firstName.charAt(0)}{userDetails.lastName.charAt(0)}</Avatar>
+        <Typography sx={styles.username}>{userDetails.firstName} {userDetails.lastName}</Typography>
+        <Typography>{userDetails.email}</Typography>
         <Typography sx={styles.status}>Online</Typography>
       </Box>
       <List>

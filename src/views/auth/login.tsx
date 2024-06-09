@@ -10,7 +10,7 @@ const Login = () => {
   const [loginStatus, setLoginStatus] = useState('');
   const navigate = useNavigate();
 
-  const userDetails = async (userId) => {
+  const userDetails = async (userId: number) => {
     try {
       const response = await axios.get(`http://localhost:3001/users/${userId}`);
       console.log('User details:', response.data);
@@ -21,7 +21,7 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/login', {

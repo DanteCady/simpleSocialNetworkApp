@@ -209,7 +209,10 @@ app.post('/posts/:postId/dislike', (req, res) => {
 app.get('/users/:userId/posts', (req, res) => {
   const { userId } = req.params;
   const query = `
-    SELECT * FROM posts
+    SELECT posts.*, 
+           (SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = posts.post_id AND post_likes.like_type = 'like') AS total_likes,
+           (SELECT COUNT(*) FROM post_likes WHERE post_likes.post_id = posts.post_id AND post_likes.like_type = 'dislike') AS total_dislikes
+    FROM posts
     WHERE user_id = ?
     ORDER BY created_at DESC`;
   connection.query(query, [userId], (err, result) => {
@@ -221,6 +224,7 @@ app.get('/users/:userId/posts', (req, res) => {
     }
   });
 });
+
 
 
 app.listen(process.env.PORT, () => {

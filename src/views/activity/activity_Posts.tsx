@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, Card, CardContent, CircularProgress, Box } from '@mui/material';
 import AppBar from '../../components/AppBar';
-import Sidebar from '../../components/sideBar';
+import Sidebar from '../../components/Sidebar';
 
 const MyPosts = () => {
   const [myPosts, setMyPosts] = useState([]);
@@ -57,6 +57,12 @@ const MyPosts = () => {
                   <Typography variant="h6">{post.content}</Typography>
                   <Typography variant="body2" color="textSecondary">
                     {new Date(post.created_at).toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Likes: {post.total_likes}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Dislikes: {post.total_dislikes}
                   </Typography>
                 </CardContent>
               </Card>

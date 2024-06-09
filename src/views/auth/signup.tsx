@@ -39,7 +39,6 @@ const Signup = () => {
       });
       setLoading(false);
       navigate('/feed');
-      
     } catch (error) {
       setLoading(false);
       setError('There was an error signing up. Please try again.');

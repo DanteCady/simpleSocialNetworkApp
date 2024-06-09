@@ -61,6 +61,7 @@ const Signup = () => {
       <Card>
         <CardContent>
           <Typography variant="h4" component="h1" align="center" gutterBottom>Signup</Typography>
+          <Typography variant="body1" align="center" gutterBottom>Signup to create an account</Typography>
           <form onSubmit={handleSubmit}>
             {error && <Typography variant="body1" color="error" align="center" gutterBottom>{error}</Typography>}
             <TextField

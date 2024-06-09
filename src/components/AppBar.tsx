@@ -1,47 +1,25 @@
 import React from 'react';
-import { globalStyles } from '../styles/styles';
+import { AppBar as MuiAppBar, Toolbar, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const AppBar = () => {
-    const navigate = useNavigate();
-    const handleLogout = () => {
-        console.log('Logout');
-        navigate('/login');
-    }
+  const navigate = useNavigate();
 
-	return (
-		<>
-			<div style={styles.appBar}>
-				<p style={globalStyles.text}>SSNS</p>
+  const handleLogout = () => {
+    console.log('Logout');
+    navigate('/login');
+  }
 
-			<div style={styles.logout}>
-				<button 
-                style={styles.button}
-                onClick={handleLogout}
-                >Logout</button>
-			</div>
-			</div>
-		</>
-	);
-};
-export const styles = {
-	appBar: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		padding: '10px',
-		backgroundColor: '#f9f9f9',
-		borderBottom: '1px solid #e1e8ed',
-	},
-    logout: {
-      cursor: 'pointer',
-      marginRight: '40px',
-    },
-    button: {
-        backgroundColor: 'blue',
-        border: 'none',
-        cursor: 'pointer',
-        },
+  return (
+    <MuiAppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          SSNS
+        </Typography>
+        <Button color="inherit" onClick={handleLogout}>Logout</Button>
+      </Toolbar>
+    </MuiAppBar>
+  );
 };
 
 export default AppBar;

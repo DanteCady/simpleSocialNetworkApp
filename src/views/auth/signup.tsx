@@ -130,6 +130,7 @@ const Signup = () => {
               {loading ? 'Loading...' : 'Submit'}
             </Button>
           </form>
+          <Typography variant="body1" align="center" style={{ marginTop: '16px' }}> Already have an account? <Button color="primary" onClick={() => navigate('/login')}>Login</Button></Typography>
         </CardContent>
       </Card>
     </Container>

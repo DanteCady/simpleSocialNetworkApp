@@ -27,7 +27,9 @@ const FeedContainer = () => {
       </Box>
       <Paper>
         {posts.length > 0 ? (
-          posts.map(post => <FeedPost key={post.post_id} post={post} />)
+          posts.map(post => (
+            <FeedPost key={post.post_id} post={post} />
+          ))
         ) : (
           <Box p={2}>
             <Typography variant="body1" align="center">No posts available</Typography>

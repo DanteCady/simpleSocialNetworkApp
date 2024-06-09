@@ -1,17 +1,16 @@
-import axios from 'axios';
 import React, { useState } from 'react';
-import { Button, Typography, Box, Paper } from '@mui/material';
+import { Typography, Box, Paper, Button } from '@mui/material';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-// import ThumbDownIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import ThumbDownIcon from '@mui/icons-material/ThumbDownAltOutlined';
+import axios from 'axios';
 
 const FeedPost = ({ post }) => {
   const [likes, setLikes] = useState(post.likes);
   const [dislikes, setDislikes] = useState(post.dislikes);
 
   const handleLike = () => {
-    axios.post('http://localhost:3001/like', { post_id: post.post_id })
+    axios.post(`http://localhost:3001/posts/${post.post_id}/like`)
       .then((response) => {
-        console.log(response);
         setLikes(likes + 1);
       })
       .catch((error) => {
@@ -20,9 +19,8 @@ const FeedPost = ({ post }) => {
   };
 
   const handleDislike = () => {
-    axios.post('http://localhost:3001/dislike', { post_id: post.post_id })
+    axios.post(`http://localhost:3001/posts/${post.post_id}/dislike`)
       .then((response) => {
-        console.log(response);
         setDislikes(dislikes + 1);
       })
       .catch((error) => {
@@ -32,17 +30,24 @@ const FeedPost = ({ post }) => {
 
   return (
     <Paper elevation={3} style={styles.postContainer}>
-      <Typography variant="body1" style={styles.postText}>{post.content}</Typography>
+      <Typography variant="body1" style={styles.postText}>
+       {post.content}
+      </Typography>
       <Box display="flex" alignItems="center">
-        <Button onClick={handleLike}  color="primary" style={styles.likeButton}>
-          <FavoriteBorderIcon />
-        </Button>
-        <Typography variant="body1">{likes}</Typography>
-        {/* <Button onClick={handleDislike} variant="contained" color="error" style={styles.dislikeButton}>
-          <ThumbDownIcon />
-        </Button> */}
-        <Typography variant="body1">{dislikes}</Typography>
+        <Box style={styles.buttonContainer}>
+          <Button onClick={handleLike} color="primary" style={styles.button}>
+            <FavoriteBorderIcon />
+          </Button>
+          <Typography variant="body1">{likes}</Typography>
+          <Button onClick={handleDislike} color="error" style={styles.button}>
+            <ThumbDownIcon />
+          </Button>
+          <Typography variant="body1">{dislikes}</Typography>
+        </Box>
       </Box>
+      <Typography sx={{color: 'grey', fontSize:'12px'}}>
+        Posted by: {post.username}
+      </Typography>
     </Paper>
   );
 };
@@ -58,10 +63,12 @@ const styles = {
     marginBottom: '10px',
     color: '#14171a',
   },
-  likeButton: {
-    marginRight: '10px',
+  buttonContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '20px',
   },
-  dislikeButton: {
-    marginLeft: '10px',
+  button: {
+    marginRight: '5px',
   },
 };

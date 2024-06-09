@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Typography, Box, Paper } from '@mui/material';
 import axios from 'axios';
-import { globalStyles } from '../styles/styles';
 import CreatePost from '../components/CreatePost';
 import FeedPost from '../components/feedPosts';
 
@@ -18,52 +18,24 @@ const FeedContainer = () => {
   }, []);
 
   return (
-    <>
-      <div style={styles.container}>
-        <p style={styles.header}>See What's Happening!</p>
-        <div style={styles.createPostContainer}>
+    <Container maxWidth="md">
+      <Box mt={4} mb={2}>
+        <Typography variant="h4" align="center" gutterBottom>See What's Happening!</Typography>
+        <Box mb={2}>
           <CreatePost />
-        </div>
-      </div>
-      <div style={styles.feedContainer}>
+        </Box>
+      </Box>
+      <Paper>
         {posts.length > 0 ? (
           posts.map(post => <FeedPost key={post.post_id} post={post} />)
         ) : (
-          <p style={globalStyles.text}>No posts available</p>
+          <Box p={2}>
+            <Typography variant="body1" align="center">No posts available</Typography>
+          </Box>
         )}
-      </div>
-    </>
+      </Paper>
+    </Container>
   );
 };
 
 export default FeedContainer;
-
-export const styles = {
-  createPostContainer: {
-    marginBottom: '20px',
-  },
-  container: {
-    backgroundColor: 'transparent',
-    width: '800px',
-    display: 'flex',
-    flexDirection: 'column',
-    border: '1px solid #e1e8ed',
-    height: '100%',
-    overflowY: 'none',
-  },
-  header: {
-    padding: '10px',
-    borderBottom: '1px solid #e1e8ed',
-    fontSize: '20px',
-    color: '#14171a',
-  },
-  feedContainer: {
-    backgroundColor: '#f5f8fa',
-    width: '800px',
-    display: 'flex',
-    flexDirection: 'column',
-    height: '400px', // Set a fixed height for the scrollable area
-    overflowY: 'auto', // Enable vertical scrolling
-    border: '1px solid #e1e8ed',
-  },
-};

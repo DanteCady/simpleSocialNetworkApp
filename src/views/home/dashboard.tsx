@@ -5,13 +5,13 @@ import AppBar from '../../components/AppBar';
 import Sidebar from '../../components/sideBar';
 
 const Dashboard = () => {
-  const userDetials = JSON.parse(localStorage.getItem('userDetails'))
+  const userDetails = JSON.parse(localStorage.getItem('userDetails'))
 
   return (
     <>
-      <AppBar userDetails={userDetials || ''} />
+      <AppBar userDetails={userDetails || ''} />
       <Box sx={styles.page}>
-        <Sidebar userDetails={userDetials || ''} />
+        <Sidebar userDetails={userDetails || ''} />
         <Box sx={styles.mainContent}>
           <FeedContainer />
         </Box>

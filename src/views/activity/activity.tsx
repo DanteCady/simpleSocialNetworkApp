@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Typography, Card, CardContent, CircularProgress } from '@mui/material';
+import AppBar from '../../components/AppBar';
 
 const Activity = () => {
-  const [myActivity, setLikedPosts] = useState([]);
+  const [myActivity, setMyActivity] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -12,8 +13,8 @@ const Activity = () => {
       try {
         const userDetails = JSON.parse(localStorage.getItem('userDetails'));
         const userId = userDetails.user_id;
-        const response = await axios.get(`http://localhost:3001/users/${userId}/liked-posts`);
-        setLikedPosts(response.data);
+        const response = await axios.get(`http://localhost:3001/users/${userId}/likes`);
+        setMyActivity(response.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -33,17 +34,20 @@ const Activity = () => {
     return <Typography color="error">{error}</Typography>;
   }
 
+  const userDetails = JSON.parse(localStorage.getItem('userDetails'));
+
   return (
-    <Container maxWidth="md">
+    <>
+    <AppBar userDetails={userDetails || ''} />
       <Typography variant="h4" component="h1" align="center" gutterBottom>
         Liked Posts
       </Typography>
-      {setLikedPosts.length === 0 ? (
+      {myActivity.length === 0 ? (
         <Typography variant="body1" align="center">
           You have not liked any posts yet.
         </Typography>
       ) : (
-        setLikedPosts.map(post => (
+        myActivity.map(post => (
           <Card key={post.post_id} style={{ marginBottom: '16px' }}>
             <CardContent>
               <Typography variant="h6">{post.content}</Typography>
@@ -54,7 +58,8 @@ const Activity = () => {
           </Card>
         ))
       )}
-    </Container>
+    
+    </>
   );
 };
 

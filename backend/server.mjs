@@ -151,11 +151,16 @@ app.post('/posts/:postId/like', (req, res) => {
   });
 });
 
-app.get('/posts/:postId/likes', (req, res) => {
-  const { postId } = req.params;
-
-  const query = 'SELECT user_id, like_type FROM post_likes WHERE post_id = ?';
-  connection.query(query, [postId], (err, result) => {
+// Get posts liked by a user
+app.get('/users/:userId/likes', (req, res) => {
+  const { userId } = req.params;
+  const query = `
+    SELECT posts.*
+    FROM posts
+    INNER JOIN post_likes ON posts.post_id = post_likes.post_id
+    WHERE post_likes.user_id = ? AND post_likes.like_type = 'like'
+  `;
+  connection.query(query, [userId], (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Server error');

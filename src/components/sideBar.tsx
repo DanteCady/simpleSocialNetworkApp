@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import ViewTimelineIcon from '@mui/icons-material/ViewTimeline';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 const Sidebar = ({ userDetails }) => {
   const location = useLocation();
@@ -36,6 +37,12 @@ const Sidebar = ({ userDetails }) => {
             <PostAddIcon />
           </ListItemIcon>
           <ListItemText primary="My Posts" />
+        </ListItem>
+        <ListItem button component={Link} to="/#" sx={isActive('/#') ? styles.active : null}>
+          <ListItemIcon sx={isActive('/#') ? styles.activeIcon : null}>
+            <GroupAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Firends" />
         </ListItem>
       </List>
     </Box>

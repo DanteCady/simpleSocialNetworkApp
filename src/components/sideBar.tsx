@@ -1,9 +1,15 @@
 import React from 'react';
 import { Box, Avatar, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+import ViewTimelineIcon from '@mui/icons-material/ViewTimeline';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 
 const Sidebar = ({ userDetails }) => {
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <Box sx={styles.sidebar}>
       <Box sx={styles.profile}>
@@ -13,14 +19,20 @@ const Sidebar = ({ userDetails }) => {
         <Typography sx={styles.status}>Online</Typography>
       </Box>
       <List>
-        <ListItem button>
-          <ListItemIcon>
+        <ListItem button component={Link} to="/feed" sx={isActive('/feed') ? styles.active : null}>
+          <ListItemIcon sx={isActive('/feed') ? styles.activeIcon : null}>
+            <ViewTimelineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Feed" />
+        </ListItem>
+        <ListItem button component={Link} to="/myActivity" sx={isActive('/myActivity') ? styles.active : null}>
+          <ListItemIcon sx={isActive('/myActivity') ? styles.activeIcon : null}>
             <ThumbUpIcon />
           </ListItemIcon>
           <ListItemText primary="Likes" />
         </ListItem>
-        <ListItem button>
-          <ListItemIcon>
+        <ListItem button component={Link} to="/myposts" sx={isActive('/myposts') ? styles.active : null}>
+          <ListItemIcon sx={isActive('/myposts') ? styles.activeIcon : null}>
             <PostAddIcon />
           </ListItemIcon>
           <ListItemText primary="My Posts" />
@@ -59,5 +71,11 @@ const styles = {
   },
   status: {
     color: 'green',
+  },
+  active: {
+    backgroundColor: '#e0f7fa',
+  },
+  activeIcon: {
+    color: 'blue',
   },
 };

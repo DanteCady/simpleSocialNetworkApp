@@ -24,13 +24,13 @@ const Sidebar = ({ userDetails }) => {
           <ListItemIcon sx={isActive('/feed') ? styles.activeIcon : null}>
             <ViewTimelineIcon />
           </ListItemIcon>
-          <ListItemText primary="Feed" />
+          <ListItemText primary="My Feed" />
         </ListItem>
         <ListItem button component={Link} to="/myActivity-likes" sx={isActive('/myActivity-likes') ? styles.active : null}>
           <ListItemIcon sx={isActive('/myActivity-likes') ? styles.activeIcon : null}>
             <ThumbUpIcon />
           </ListItemIcon>
-          <ListItemText primary="Likes" />
+          <ListItemText primary="My Likes" />
         </ListItem>
         <ListItem button component={Link} to="/myActivity-posts" sx={isActive('/myActivity-posts') ? styles.active : null}>
           <ListItemIcon sx={isActive('/myActivity-posts') ? styles.activeIcon : null}>

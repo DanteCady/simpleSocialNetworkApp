@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { TextField, Button, Typography, Container, Card, CardContent } from '@mui/material';
 import axios from 'axios';
 
 const Login = () => {
@@ -7,56 +8,57 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle login logic here
-    axios.get('http://localhost:3001/login', {
-      params: {
+    try {
+      const response = await axios.post('http://localhost:3001/login', {
         username: username,
         password: password,
-      },
-    })
-    .then(response => {
+      });
       navigate('/feed');
-    })
-    .catch(error => {
+    } catch (error) {
       console.error('There was an error logging in!', error);
-    });
-
-    console.log(
-      `Logging in with username: ${username} and password: ${password}`
-    );
+    }
   };
 
   return (
-    <div className="container mt-5">
-      <h1 className="text-center">Login</h1>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="mb-3">
-          <label htmlFor="username" className="form-label">Username</label>
-          <input
-            type="text"
-            className="form-control"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary w-100">Submit</button>
-      </form>
-    </div>
+    <Container maxWidth="sm" style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Card>
+        <CardContent>
+          <Typography variant="h4" component="h1" align="center" gutterBottom>Login</Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              margin="normal"
+            />
+            <TextField
+              label="Password"
+              variant="outlined"
+              fullWidth
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              margin="normal"
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{ marginTop: '16px' }}
+            >
+              Submit
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 

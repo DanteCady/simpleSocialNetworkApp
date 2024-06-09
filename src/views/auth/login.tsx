@@ -31,7 +31,7 @@ const Login = () => {
 			});
 			console.log('Login response:', response);
 			if (response.data.success) {
-				localStorage.setItem('userDetails', response.data.userDetails);
+				userDetails();
 			} else {
 				setLoginStatus('Invalid username or password');
 			}

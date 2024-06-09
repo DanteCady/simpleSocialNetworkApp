@@ -67,24 +67,24 @@ app.get('/posts', (req, res) => {
 
 // Login route
 app.post('/login', (req, res) => {
-    const { username, password } = req.body;
-  
-    // Verify user credentials
-    const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
-    connection.query(query, [username, password], (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Server error');
+  const { username, password } = req.body;
+
+  // Verify user credentials
+  const query = 'SELECT * FROM users WHERE username = ? AND password = ?';
+  connection.query(query, [username, password], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Server error');
+    } else {
+      if (result.length > 0) {
+        const user = result[0];
+        res.status(200).send({ success: true, userId: user.user_id });
       } else {
-        if (result.length > 0) {
-          res.status(200).send('Login successful');
-          res.send(result);
-        } else {
-          res.status(401).send('Invalid credentials');
-        }
+        res.status(401).send({ success: false, message: 'Invalid credentials' });
       }
-    });
+    }
   });
+});
 
 // Get user details
 app.get('/users/:user_Id', (req, res) => {

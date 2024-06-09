@@ -89,7 +89,7 @@ app.post('/login', (req, res) => {
 // Get user details
 app.get('/users/:user_Id', (req, res) => {
   const { user_Id } = req.params;
-  const query = 'SELECT * FROM users WHERE user_id = ?';
+  const query = 'SELECT user_id, userName, firstName, lastName, email FROM users WHERE user_id = ?';
   connection.query(query, [user_Id], (err, result) => {
     if (err) {
       console.error(err);
@@ -103,6 +103,7 @@ app.get('/users/:user_Id', (req, res) => {
     }
   });
 });
+
 
 // Sign up route
 app.post('/signup', (req, res) => {

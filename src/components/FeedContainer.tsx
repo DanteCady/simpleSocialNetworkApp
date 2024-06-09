@@ -15,6 +15,31 @@ const FeedContainer = () => {
       .catch(error => {
         console.error('Error fetching posts:', error);
       });
+
+    const ws = new WebSocket(`ws://localhost:8080`);
+
+    ws.onopen = () => {
+      console.log('WebSocket connection established');
+    };
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'NEW_POST') {
+        setPosts(prevPosts => [message.post, ...prevPosts]);
+      }
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
+    return () => {
+      ws.close();
+    };
   }, []);
 
   return (

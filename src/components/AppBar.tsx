@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar as MuiAppBar, Toolbar, Typography, Button, Avatar } from '@mui/material';
+import { AppBar as MuiAppBar, Toolbar, Typography, Button, Avatar, Box} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import BoltIcon from '@mui/icons-material/Bolt';
 
@@ -16,20 +16,20 @@ const AppBar = () => {
 	}
 
 	return (
-		<MuiAppBar position="static">
+		<MuiAppBar position="static" sx={{width: '100%'}}>
 			<Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
-				<div style={{ display: 'flex', alignItems: 'center' }}>
-					<Typography variant="h6" component="div">
+				<Box style={{ display: 'flex', alignItems: 'center' }}>
+					<Typography variant="h6" >
 						SSNS
 					</Typography>
 					<BoltIcon sx={{ marginLeft: '10px', height: '35px' }} />
-				</div>
-				<div style={{ display: 'flex', alignItems: 'center' }}>
+				</Box>
+				<Box style={{ display: 'flex', alignItems: 'center' }}>
 					<Button onClick={handleAccount}>
 					<Avatar alt="User Avatar" src="/path/to/avatar.jpg" sx={{ marginRight: '10px' }} />
 					</Button>
 					<Button color="inherit" onClick={handleLogout}>Logout</Button>
-				</div>
+				</Box>
 			</Toolbar>
 		</MuiAppBar>
 	);

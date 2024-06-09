@@ -1,0 +1,62 @@
+import React from 'react';
+import { Box, Avatar, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+
+const Sidebar = ({ user }) => {
+  return (
+    <Box sx={styles.sidebar}>
+      <Box sx={styles.profile}>
+        <Avatar sx={styles.avatar}>{user.firstName.charAt(0)}{user.lastName.charAt(0)}</Avatar>
+        <Typography sx={styles.username}>{user.firstName} {user.lastName}</Typography>
+        <Typography sx={styles.status}>Online</Typography>
+      </Box>
+      <List>
+        <ListItem button>
+          <ListItemIcon>
+            <ThumbUpIcon />
+          </ListItemIcon>
+          <ListItemText primary="Likes" />
+        </ListItem>
+        <ListItem button>
+          <ListItemIcon>
+            <PostAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Posts" />
+        </ListItem>
+      </List>
+    </Box>
+  );
+};
+
+export default Sidebar;
+
+const styles = {
+  sidebar: {
+    width: '200px',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '10px',
+    border: '1px solid #e1e8ed',
+    height: 'calc(100vh - 40px)',
+    overflowY: 'auto',
+  },
+  profile: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: '20px',
+  },
+  avatar: {
+    width: '60px',
+    height: '60px',
+    marginBottom: '10px',
+  },
+  username: {
+    fontWeight: 'bold',
+    marginBottom: '5px',
+  },
+  status: {
+    color: 'green',
+  },
+};

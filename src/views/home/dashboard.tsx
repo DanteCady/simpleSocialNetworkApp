@@ -9,7 +9,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <AppBar />
+      <AppBar userDetails={userDetials || ''} />
       <Box sx={styles.page}>
         <Sidebar userDetails={userDetials || ''} />
         <Box sx={styles.mainContent}>

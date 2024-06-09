@@ -3,7 +3,7 @@ import { AppBar as MuiAppBar, Toolbar, Typography, Button, Avatar, Box} from '@m
 import { useNavigate } from 'react-router-dom';
 import BoltIcon from '@mui/icons-material/Bolt';
 
-const AppBar = () => {
+const AppBar = ({userDetails}) => {
 	const navigate = useNavigate();
 
 	const handleLogout = () => {
@@ -26,7 +26,7 @@ const AppBar = () => {
 				</Box>
 				<Box style={{ display: 'flex', alignItems: 'center' }}>
 					<Button onClick={handleAccount}>
-					<Avatar alt="User Avatar" src="/path/to/avatar.jpg" sx={{ marginRight: '10px' }} />
+					<Avatar>{userDetails.firstName.charAt(0)}{userDetails.lastName.charAt(0)}</Avatar>
 					</Button>
 					<Button color="inherit" onClick={handleLogout}>Logout</Button>
 				</Box>

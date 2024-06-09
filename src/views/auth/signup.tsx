@@ -4,6 +4,9 @@ import { TextField, Button, Card, CardContent, Typography, Container } from '@mu
 import axios from 'axios';
 
 const Signup = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -14,7 +17,7 @@ const Signup = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!username || !password || !confirmPassword) {
+    if (!firstName ||!lastName || !email || !username || !password || !confirmPassword) {
       setError('All fields are required.');
       return;
     }
@@ -27,7 +30,10 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post('https://example.com/signup', {
+      const response = await axios.post('http://localhost:3001/signup', {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
         username: username,
         password: password,
       });
@@ -46,6 +52,33 @@ const Signup = () => {
           <Typography variant="h4" component="h1" align="center" gutterBottom>Signup</Typography>
           <form onSubmit={handleSubmit}>
             {error && <Typography variant="body1" color="error" align="center" gutterBottom>{error}</Typography>}
+            <TextField
+              label="Firstname"
+              variant="outlined"
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              margin="normal"
+            />
+             <TextField
+              label="Lastname"
+              variant="outlined"
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              margin="normal"
+            />
+             <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              margin="normal"
+            />
             <TextField
               label="Username"
               variant="outlined"
